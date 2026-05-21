@@ -64,7 +64,6 @@ class PlayingFooter(Gtk.Overlay):
         self.update_progress_el_visibility()
         integration = get_current_integration()
         if song := integration.loaded_models.get(song_id):
-            artists = song.get_property('artists')
             self.progress_el.get_adjustment().set_upper(song.get_property('duration'))
             threading.Thread(target=self.update_cover_art, daemon=True).start()
 

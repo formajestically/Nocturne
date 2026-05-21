@@ -216,9 +216,9 @@ class PlayingControlPage(Adw.NavigationPage):
 
                 # Disconnect From Previous Song
                 if previousSong := integration.loaded_models.get(self.song_connections.get('songId', '')):
-                    for connection_id in self.song_connections.get('connections', []):
+                    for connection_id in self.song_connections.get('connections', []).copy():
                         try:
-                            previousSong.disconnect(connection_id)
+                            GLib.idle_add(previousSong.disconnect, connection_id)
                         except:
                             pass
 
