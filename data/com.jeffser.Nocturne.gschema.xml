@@ -51,6 +51,9 @@
 	  <key name="show-carousel-pan-buttons" type="b">
 	    <default>false</default>
 	  </key>
+	  <key name="button-size" type="s">
+	    <default>'big'</default>
+	  </key>
 	  <!--### Section: Dynamic Background-->
     <key name="global-dynamic-bg-mode" type="s">
 	    <default>''</default>
