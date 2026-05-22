@@ -182,7 +182,7 @@ class Local(Base):
             try:
                 shutil.rmtree(directory, ignore_errors=True)
                 os.makedirs(directory, exist_ok=True)
-                if paintable := self.getCoverArt(model_id, big)
+                if paintable := self.getCoverArt(model_id, big):
                     paintable.save_to_png(path)
                     return "file://{}".format(path)
             except Exception as e:
