@@ -35,6 +35,7 @@ class NocturnePreferences(Adw.PreferencesDialog):
     translucent_player_el = Gtk.Template.Child()
     use_sidebar_player_el = Gtk.Template.Child()
     carousel_pan_buttons_el = Gtk.Template.Child()
+    button_size_el = Gtk.Template.Child()
 
     ## Dynamic Background
     global_dynamic_bg_el = Gtk.Template.Child()
@@ -190,6 +191,12 @@ class NocturnePreferences(Adw.PreferencesDialog):
             "show-carousel-pan-buttons",
             self.carousel_pan_buttons_el,
             "active",
+            Gio.SettingsBindFlags.DEFAULT
+        )
+        settings.bind(
+            "button-size",
+            self.button_size_el,
+            "active-name",
             Gio.SettingsBindFlags.DEFAULT
         )
 
