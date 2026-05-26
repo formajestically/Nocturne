@@ -4,7 +4,7 @@ from gi.repository import Gtk, Adw, GLib, GObject, Gdk, Gio, GdkPixbuf
 from . import secret, models, local
 from ..constants import get_navidrome_path, check_if_navidrome_ready, get_navidrome_env, CONTEXT_MANAGED_NAVIDROME_SERVER, DOWNLOAD_QUEUE_DIR, DOWNLOADS_DIR, DOWNLOAD_MIME_MAP
 from .base import Base
-import requests, random, threading, io, subprocess, shutil, os
+import requests, random, threading, io, subprocess, shutil, os, re
 from PIL import Image
 from urllib.parse import urlencode, urlparse
 
@@ -374,7 +374,7 @@ class Navidrome(Base):
             }
         return {'type': 'not-found'}
 
-    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0) -> dict:
+    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0, playlistCount:int=0, playlistOffset:int=0) -> dict:
         response = self.make_request('search3', {
             'query': query,
             'artistCount': artistCount,
@@ -398,10 +398,18 @@ class Navidrome(Base):
             if model.get('id') not in self.loaded_models:
                 self.loaded_models[model.get('id')] = models.Song(**model)
 
+        # Playlists
+        playlist_ids = []
+        for playlistId in self.getPlaylists():
+            if playlist := self.loaded_models.get(playlistId):
+                if re.search(query, playlist.get_property('name'), re.IGNORECASE):
+                    playlist_ids.append(playlistId)
+
         return {
             'artist': [m.get('id') for m in search_results.get('artist', [])],
             'album': [m.get('id') for m in search_results.get('album', [])],
             'song': [m.get('id') for m in search_results.get('song', [])],
+            'playlist': playlist_ids
         }
 
     def getInternetRadioStations(self) -> list:

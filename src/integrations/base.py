@@ -197,11 +197,11 @@ class Base(GObject.Object):
         # returns same dicts as lyrics -> helpers -> get_lyrics
         return {'type': 'not-found'}
 
-    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0) -> dict:
+    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0, playlistCount:int=0, playlistOffset:int=0) -> dict:
         # returns a dict with results trucated with the count and offset, the dict has keys for album, artist and song, the values are lists of IDs
         # for an example view local.py
         print('WARNING', 'search', 'not implemented')
-        return {'artist': {}, 'album': {}, 'song': {}}
+        return {'artist': [], 'album': [], 'song': [], 'playlist': []}
 
     def getInternetRadioStations(self) -> list:
         # returns a list of Song IDs with the property radioStreamUrl set

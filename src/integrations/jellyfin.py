@@ -717,7 +717,7 @@ class Jellyfin(Base):
                 }
         return {'type': 'not-found'}
 
-    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0) -> dict:
+    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0, playlistCount:int=0, playlistOffset:int=0) -> dict:
         def fetch_type(item_type:str, limit:int, offset:int, fields:str=""):
             return self.make_request(
                 action='Users/{userId}/Items',
@@ -735,7 +735,8 @@ class Jellyfin(Base):
         return {
             'artist': [item.get("Id") for item in fetch_type("MusicArtist", artistCount, artistOffset)],
             'album': [item.get("Id") for item in fetch_type("MusicAlbum", albumCount, albumOffset)],
-            'song': [item.get("Id") for item in fetch_type("Audio", songCount, songOffset)]
+            'song': [item.get("Id") for item in fetch_type("Audio", songCount, songOffset)],
+            'playlist': [item.get("Id") for item in fetch_type("Playlist", playlistCount, playlistOffset)]
         }
 
     def getInternetRadioStations(self) -> list:

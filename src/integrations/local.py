@@ -392,15 +392,17 @@ class Local(Base):
                     return {'type': 'plain', 'content': lyrics_str}
         return {'type': 'not-found'}
 
-    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0) -> dict:
+    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0, playlistCount:int=0, playlistOffset:int=0) -> dict:
         all_artists = [model for model_id, model in self.loaded_models.items() if model_id in self.album_artist_ids]
         all_albums = [model for model_id, model in self.loaded_models.items() if model_id.startswith('ALBUM:')]
         all_songs = [model for model_id, model in self.loaded_models.items() if model_id.startswith('SONG:')]
+        all_playlists = [self.loaded_models.get(playlistId) for playlistId in self.getPlaylists() if playlistId in self.loaded_models]
 
         return {
             'artist': [model.id for model in all_artists if re.search(query, model.name, re.IGNORECASE)][artistOffset:artistCount+artistOffset],
             'album': [model.id for model in all_albums if re.search(query, model.name, re.IGNORECASE) or re.search(query, model.artist, re.IGNORECASE)][albumOffset:albumCount+albumOffset],
-            'song': [model.id for model in all_songs if re.search(query, model.title, re.IGNORECASE) or re.search(query, model.album, re.IGNORECASE) or re.search(query, model.artist, re.IGNORECASE)][songOffset:songCount+songOffset]
+            'song': [model.id for model in all_songs if re.search(query, model.title, re.IGNORECASE) or re.search(query, model.album, re.IGNORECASE) or re.search(query, model.artist, re.IGNORECASE)][songOffset:songCount+songOffset],
+            'playlist': [model.id for model in all_playlists if re.search(query, model.title, re.IGNORECASE)][playlistOffset:playlistCount+playlistOffset]
         }
 
     def getInternetRadioStations(self) -> list:
