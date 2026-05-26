@@ -139,12 +139,16 @@ def search(window):
             window.replace_root_page('home')
             homepage = window.main_navigationview.find_page('home')
         else:
-            __show_page(widgets.HomePage())
             for dialog in window.get_dialogs():
                 if dialog.__gtype_name__ == 'NocturnePageDialog':
                     homepage = dialog.navigation_view.find_page('home')
+            if not homepage:
+                __show_page(widgets.HomePage())
+                for dialog in window.get_dialogs():
+                    if dialog.__gtype_name__ == 'NocturnePageDialog':
+                        homepage = dialog.navigation_view.find_page('home')
     if homepage:
-        GLib.idle_add(homepage.search_bar.set_search_mode, True)
+        GLib.idle_add(homepage.search_bar.set_search_mode, not homepage.search_bar.get_search_mode())
 
 def launch_playback(window):
     def run():
