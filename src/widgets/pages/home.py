@@ -133,7 +133,8 @@ class HomePage(Adw.NavigationPage):
 
     @Gtk.Template.Callback()
     def search_mode_toggled(self, button):
-        self.main_clamp.set_margin_top(0 if button.get_active() else self.header_bar.get_height())
+        print('toggled')
+        self.main_clamp.set_margin_top(0 if button.get_active() else self.header_bar.get_height() or 46)
 
     @Gtk.Template.Callback()
     def on_search(self, entry):
