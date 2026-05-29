@@ -303,7 +303,10 @@ class Player(EventAdapter):
             print("Failed to publish MPRIS:", e)
         GLib.timeout_add(64, self.update_stream_progress)
 
-        self.last_song_id = None
+        self.song_connections = {
+            'songId': '',
+            'connections': []
+        }
         self.pause_next_change = False
         self.last_gst_state_type = -1
         self.discord_rpc = DiscordRPC(self)
@@ -576,23 +579,36 @@ class Player(EventAdapter):
 
         def update_default_metadata(songId):
             if model := integration.loaded_models.get(songId):
-                GLib.idle_add(integration.loaded_models.get('currentSong').set_property, 'displaySongTitle', model.get_property('title'))
-                if stream_url := model.get_property('radioStreamUrl'):
-                    GLib.idle_add(integration.loaded_models.get('currentSong').set_property, 'displaySongArtist', urlparse(stream_url).netloc.capitalize())
+                # Disconnect From Previous Song
+                if previousSong := integration.loaded_models.get(self.song_connections.get('songId', '')):
+                    for connection_id in self.song_connections.get('connections', []).copy():
+                        try:
+                            GLib.idle_add(previousSong.disconnect, connection_id)
+                        except:
+                            pass
+
+                connections = {
+                    'title': lambda title: integration.loaded_models.get('currentSong').set_property('displaySongTitle', title)
+                }
+                if model.get_property('radioStreamUrl'): # is radio
+                    connections['radioStreamUrl'] = lambda streamUrl: integration.loaded_models.get('currentSong').set_property('displaySongArtist', urlparse(streamUrl).netloc.capitalize())
                 else:
-                    artists = model.get_property('artists')
-                    if len(artists) > 0:
-                        GLib.idle_add(integration.loaded_models.get('currentSong').set_property, 'displaySongArtist', artists[0].get('name'))
+                    connections['artists'] = lambda artists: integration.loaded_models.get('currentSong').set_property('displaySongArtist', artists[0].get('name') if len(artists) > 0 else '')
+                self.song_connections['connections'] = []
+                self.song_connections['songId'] = songId
+                for property_name, cb in connections.items():
+                    if connection_id := integration.connect_to_model(song_id, property_name, cb):
+                        self.song_connections['connections'].append(connection_id)
 
                 new_gain = 0.0
                 album_mode = False
                 if self.settings.get_value('use-gain').unpack():
                     new_gain = model.get_property('trackGain')
-                    if last_model := integration.loaded_models.get(self.last_song_id):
+                    if last_model := integration.loaded_models.get(self.song_connections.get('songId')):
                         if last_model.get_property('albumId') == model.get_property('albumId'):
                             new_gain = model.get_property('albumGain')
                             album_mode = True
-                self.last_song_id = songId
+                self.song_connections['songId'] = songId
                 GLib.idle_add(self.rg_volume.set_property, "fallback-gain", new_gain)
                 GLib.idle_add(self.rg_volume.set_property, "album-mode", album_mode)
 
@@ -608,7 +624,7 @@ class Player(EventAdapter):
                             model.set_property('duration', duration / Gst.SECOND)
 
         if song_id:
-            if song_id != self.last_song_id:
+            if song_id != self.song_connections.get('songId'):
                 stream_url = integration.get_stream_url(song_id)
                 self.gst.set_state(Gst.State.READY)
                 self.gst.set_property('uri', stream_url)
