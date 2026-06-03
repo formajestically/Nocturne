@@ -64,7 +64,7 @@ class Jellyfin(Base):
         }
         try:
             if mode == 'GET':
-                response = requests.get(
+                response = self.session.get(
                     self.get_url(action, **action_keys),
                     params=params,
                     json=json,
@@ -72,7 +72,7 @@ class Jellyfin(Base):
                     verify=not self.get_property('trustServer')
                 )
             elif mode == 'POST':
-                response = requests.post(
+                response = self.session.post(
                     self.get_url(action, **action_keys),
                     params=params,
                     json=json,
@@ -80,7 +80,7 @@ class Jellyfin(Base):
                     verify=not self.get_property('trustServer')
                 )
             elif mode == 'DELETE':
-                response = requests.delete(
+                response = self.session.delete(
                     self.get_url(action, **action_keys),
                     params=params,
                     json=json,
@@ -160,7 +160,7 @@ class Jellyfin(Base):
                 'quality': 90
             }
             try:
-                response = requests.get(
+                response = self.session.get(
                     self.get_url('Items/{id}/Images/Primary', id=model_id),
                     headers=self.get_base_header(),
                     params=params,
@@ -923,7 +923,7 @@ class Jellyfin(Base):
             "Accept": "application/json"
         }
         try:
-            with requests.get(self.get_url('Items/{id}/Download', id=model_id), headers=headers, stream=True) as r:
+            with self.session.get(self.get_url('Items/{id}/Download', id=model_id), headers=headers, stream=True) as r:
                 r.raise_for_status()
                 total_size = int(r.headers.get('content-length', 0))
                 downloaded_size = 0
@@ -988,7 +988,7 @@ class Jellyfin(Base):
                 "maxWidth": 240,
                 "quality": 90
             }
-            response = requests.get(
+            response = self.session.get(
                 self.get_url('Users/{userId}/Images/Primary'),
                 params=params,
                 verify=not self.get_property('trustServer')

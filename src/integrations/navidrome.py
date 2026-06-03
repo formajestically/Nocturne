@@ -46,7 +46,7 @@ class Navidrome(Base):
         return '{}/rest/{}'.format(self.get_property('url').strip('/'), action)
 
     def send_request(self, action: str, params:dict={}) -> requests.Response:
-        return requests.get(
+        return self.session.get(
             self.get_url(action),
             params={**self.get_base_params(), **params},
             verify=not self.get_property('trustServer')
@@ -101,7 +101,7 @@ class Navidrome(Base):
                 'id': model.get_property('coverArt') or model.get_property('id'),
                 'size': 720 if big else 240
             }
-            response = requests.get(
+            response = self.session.get(
                 self.get_url('getCoverArt'),
                 params=params,
                 verify=not self.get_property('trustServer')
@@ -511,7 +511,7 @@ class Navidrome(Base):
             'id': model_id
         }
         try:
-            with requests.get(self.get_url('download'), params=params, stream=True) as r:
+            with self.session.get(self.get_url('download'), params=params, stream=True) as r:
                 r.raise_for_status()
                 total_size = int(r.headers.get('content-length', 0))
                 downloaded_size = 0
@@ -554,7 +554,7 @@ class Navidrome(Base):
             'username': self.get_property('user').title()
         }
         try:
-            response = requests.get(
+            response = self.session.get(
                 self.get_url('ping'),
                 params=self.get_base_params(),
                 verify=not self.get_property('trustServer')
@@ -570,7 +570,7 @@ class Navidrome(Base):
                 **self.get_base_params(),
                 'username': self.get_property('user')
             }
-            response = requests.get(
+            response = self.session.get(
                 self.get_url('getAvatar'),
                 params=params,
                 verify=not self.get_property('trustServer')

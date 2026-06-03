@@ -7,6 +7,7 @@ import requests, io, urllib3, time, os, json
 from PIL import Image
 from datetime import datetime
 from urllib.parse import urlparse
+from requests.adapters import HTTPAdapter
 
 # Just so that the logs don't get cluttered with warnings if trust-server = True
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -33,6 +34,15 @@ class Base(GObject.Object):
 
     # See example in get_sql_schema
     sqlSchema = {}
+
+    # Use session instead of calling requests
+    session_adapter = HTTPAdapter(
+        pool_connections=5,
+        pool_maxsize=100
+    )
+    session = requests.Session()
+    session.mount("http://", session_adapter)
+    session.mount("https://", session_adapter)
 
     def open_json(self, filename:str, fallback={}) -> dict:
         # please use sql when possible
