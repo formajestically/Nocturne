@@ -1,8 +1,7 @@
 # selector_row.py
 
-from gi.repository import Gtk, Adw, GLib, Gdk
+from gi.repository import Gtk, Adw
 from ...integrations import get_current_integration
-import threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/playlist/selector_row.ui')
 class PlaylistSelectorRow(Adw.ActionRow):
@@ -20,7 +19,7 @@ class PlaylistSelectorRow(Adw.ActionRow):
         integration.connect_to_model(self.id, 'songCount', self.update_song_count)
         integration.connect_to_model(self.id, 'gdkPaintable', self.update_cover)
 
-    def update_cover(self, paintable:Gdk.Paintable=None):
+    def update_cover(self):
         if paintable:
             self.cover_el.set_from_paintable(paintable)
             self.cover_el.set_pixel_size(48)

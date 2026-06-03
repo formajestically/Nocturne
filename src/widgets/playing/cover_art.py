@@ -1,6 +1,6 @@
 # coverArt.py
 
-from gi.repository import Gtk, Adw, Gdk, GLib, GObject, Gst, Gio
+from gi.repository import Gtk, Gdk, GLib
 from ...integrations import get_current_integration
 import threading
 

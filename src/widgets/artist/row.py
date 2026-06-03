@@ -4,7 +4,6 @@ from gi.repository import Gtk, Adw, GLib, Gdk, Gio
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_ARTIST
 from ..containers import ContextContainer
-import threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/artist/row.ui')
 class ArtistRow(Adw.ActionRow):
@@ -32,7 +31,7 @@ class ArtistRow(Adw.ActionRow):
             Gio.SettingsBindFlags.DEFAULT
         )
 
-    def update_cover(self, paintable:Gdk.Paintable=None):
+    def update_cover(self, paintable):
         if paintable:
             self.avatar_el.set_custom_image(paintable)
         elif isinstance(self.avatar_el.get_custom_image(), Adw.SpinnerPaintable):

@@ -5,7 +5,6 @@ from .queue import SongQueue
 from ...integrations import get_current_integration
 from ..containers import ContextContainer
 from ...constants import CONTEXT_SONG, get_display_time
-import threading, uuid, cairo
 from urllib.parse import urlparse
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/song/row.ui')

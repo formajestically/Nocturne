@@ -1,13 +1,13 @@
 # page.py
 
-from gi.repository import Gtk, Adw, Gdk, GLib, Pango
+from gi.repository import Gtk, Adw, GLib, Pango
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_ARTIST
 from ..containers import get_context_buttons_list
 from ..song import SongSmallRow
 from ..album import AlbumButton
 from .button import ArtistButton
-import threading, uuid, io
+import threading, io
 from colorthief import ColorThief
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/artist/page.ui')
@@ -29,9 +29,7 @@ class ArtistPage(Adw.NavigationPage):
         self.id = id
         integration = get_current_integration()
         integration.verifyArtist(self.id, True)
-        super().__init__(
-            tag=str(uuid.uuid4()),
-        )
+        super().__init__()
 
         self.star_el.set_action_target_value(GLib.Variant.new_string(self.id))
         context_buttons = get_context_buttons_list(CONTEXT_ARTIST, self.id)
@@ -80,7 +78,7 @@ class ArtistPage(Adw.NavigationPage):
         for i, el in enumerate(list(self.rating_container)):
             el.set_icon_name("starred-symbolic" if rating >= i+1 else "non-starred-symbolic")
 
-    def update_cover(self, paintable:Gdk.Paintable=None):
+    def update_cover(self, paintable):
         if paintable:
             self.avatar_el.set_custom_image(paintable)
             self.update_background(paintable.save_to_png_bytes().get_data())

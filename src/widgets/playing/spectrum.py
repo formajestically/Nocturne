@@ -1,6 +1,6 @@
 # spectrum.py
 
-from gi.repository import Gtk, Gdk, GObject, GLib, Gio
+from gi.repository import Gtk, GLib, Gio
 from ...integrations import get_current_integration
 from colorthief import ColorThief
 import io, threading, math

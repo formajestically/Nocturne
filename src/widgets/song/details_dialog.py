@@ -1,9 +1,8 @@
 # details_dialog.py
 
-from gi.repository import Gtk, Adw, GLib, Gdk, Gio, Gst
+from gi.repository import Gtk, Adw, GLib
 from ...integrations import get_current_integration
-from ...constants import DATA_DIR, get_display_time
-import threading, os
+from ...constants import get_display_time
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/song/details_dialog.ui')
 class SongDetailsDialog(Adw.Dialog):

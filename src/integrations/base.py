@@ -1,12 +1,10 @@
 # base.py
 
-from gi.repository import Gtk, GLib, GObject, Gdk
+from gi.repository import GLib, GObject, Gdk
 from . import models, secret, sql_instance
 from ..constants import get_nocturne_version, DEFAULT_MUSIC_DIR, INTEGRATIONS_DIR
-import requests, io, urllib3, time, os, json
-from PIL import Image
+import requests, urllib3, time, os, json
 from datetime import datetime
-from urllib.parse import urlparse
 from requests.adapters import HTTPAdapter
 
 # Just so that the logs don't get cluttered with warnings if trust-server = True

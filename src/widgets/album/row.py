@@ -1,10 +1,9 @@
 # row.py
 
-from gi.repository import Gtk, Adw, GLib, Gdk, Gio
+from gi.repository import Gtk, Adw, GLib, Gio
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_ALBUM
 from ..containers import ContextContainer
-import threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/album/row.ui')
 class AlbumRow(Adw.ActionRow):
@@ -32,7 +31,7 @@ class AlbumRow(Adw.ActionRow):
             Gio.SettingsBindFlags.DEFAULT
         )
 
-    def update_cover(self, paintable:Gdk.Paintable=None):
+    def update_cover(self, paintable):
         if paintable:
             self.cover_el.set_from_paintable(paintable)
             self.cover_el.set_pixel_size(48)

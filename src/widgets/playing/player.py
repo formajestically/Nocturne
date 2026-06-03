@@ -1,17 +1,16 @@
 # player.py
 
-from gi.repository import Gtk, Adw, Gdk, GLib, GObject, Gst, Gio, Gst
+from gi.repository import Adw, GLib, GObject, Gst, Gio
 
 from mpris_server.adapters import MprisAdapter
 from mpris_server.events import EventAdapter
 from mpris_server.server import Server
 from mpris_server import Metadata, ValidMetadata, Track, Position, Volume, Rate, PlayState, DbusObj, MetadataObj, ActivePlaylist, PlaylistEntry, MprisInterface
 
-from ...integrations import get_current_integration, models
+from ...integrations import get_current_integration
 from ...integrations.discord_rpc import DiscordRPC
-from ..lyrics import LyricsDialog
 from urllib.parse import urlparse
-import threading, os, colorsys, io, base64
+import threading, io, base64
 from PIL import Image, ImageFilter
 from colorthief import ColorThief
 

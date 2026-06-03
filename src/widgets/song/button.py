@@ -60,7 +60,7 @@ class SongButton(Gtk.Box):
         self.artist_el.get_child().set_label("")
         self.artist_el.set_tooltip_text("")
 
-    def update_cover(self, paintable:Gdk.Paintable=None):
+    def update_cover(self, paintable):
         if paintable:
             self.cover_el.set_from_paintable(paintable)
         elif isinstance(self.cover_el.get_paintable(), Adw.SpinnerPaintable):

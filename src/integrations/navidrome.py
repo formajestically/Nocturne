@@ -1,11 +1,10 @@
 # navidrome.py
 
-from gi.repository import Gtk, Adw, GLib, GObject, Gdk, Gio, GdkPixbuf
+from gi.repository import GLib, GObject, Gdk, Gio
 from . import secret, models, local
-from ..constants import get_navidrome_path, check_if_navidrome_ready, get_navidrome_env, CONTEXT_MANAGED_NAVIDROME_SERVER, DOWNLOAD_QUEUE_DIR, DOWNLOADS_DIR, DOWNLOAD_MIME_MAP
+from ..constants import get_navidrome_path, get_navidrome_env, CONTEXT_MANAGED_NAVIDROME_SERVER, DOWNLOAD_QUEUE_DIR, DOWNLOADS_DIR, DOWNLOAD_MIME_MAP
 from .base import Base
-import requests, random, threading, io, subprocess, shutil, os, re, logging
-from PIL import Image
+import random, threading, subprocess, os, re, logging
 from urllib.parse import urlencode, urlparse
 
 logger = logging.getLogger(__name__)
@@ -45,7 +44,7 @@ class Navidrome(Base):
     def get_url(self, action:str) -> str:
         return '{}/rest/{}'.format(self.get_property('url').strip('/'), action)
 
-    def send_request(self, action: str, params:dict={}) -> requests.Response:
+    def send_request(self, action: str, params:dict={}):
         return self.session.get(
             self.get_url(action),
             params={**self.get_base_params(), **params},

@@ -1,10 +1,10 @@
 # preferences.py
 
-from gi.repository import Gtk, Adw, GLib, Gst, Gio, GObject, Gdk, Pango
+from gi.repository import Gtk, Adw, GLib, Gio, Gdk, Pango
 
 from .integrations import get_current_integration, secret
 from .constants import SIDEBAR_MENU, BITRATE_OPTIONS, IN_FLATPAK
-import threading, os
+import os
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/preferences.ui')
 class NocturnePreferences(Adw.PreferencesDialog):

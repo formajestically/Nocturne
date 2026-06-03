@@ -1,10 +1,10 @@
 # dialog.py
 
-from gi.repository import Gtk, Adw, GLib, Gdk, Gio, Gst
+from gi.repository import Gtk, Adw, GLib, Gio, Gst
 from ...integrations import get_current_integration
-from ...constants import DATA_DIR, get_display_time
+from ...constants import get_display_time
 from .helpers import get_lyrics
-import threading, os
+import threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/lyrics/edit_row.ui')
 class LyricEditRow(Adw.EntryRow):

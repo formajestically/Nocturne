@@ -1,6 +1,6 @@
 # playback.py
 
-from gi.repository import Gtk, Adw, Gio, GLib, Pango
+from gi.repository import Gtk, Adw, GLib, Pango
 from ...integrations import get_current_integration
 from ..song import SongRow, SongButton
 from datetime import datetime

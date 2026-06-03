@@ -1,6 +1,6 @@
 # wrapbox.py
 
-from gi.repository import Gtk, Adw, GLib
+from gi.repository import Gtk, GLib
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/containers/wrapbox.ui')
 class Wrapbox(Gtk.Box):

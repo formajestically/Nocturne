@@ -1,9 +1,9 @@
 # songs_starred.py
 
-from gi.repository import Gtk, Adw, GLib, GObject, Gio
+from gi.repository import Gtk, Adw, GLib
 from ...integrations import get_current_integration
 from ..song import SongRow, SongButton
-import threading, re
+import re
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/pages/songs_starred.ui')
 class SongsStarredPage(Adw.NavigationPage):

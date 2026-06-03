@@ -1,7 +1,7 @@
 # playlists.py
 
-from gi.repository import Gtk, Adw, GLib, GObject, Gio
-from ...integrations import get_current_integration, models
+from gi.repository import Gtk, Adw, GLib, Gio
+from ...integrations import get_current_integration
 from ..playlist import PlaylistRow, PlaylistButton
 import threading
 

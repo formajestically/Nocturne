@@ -17,7 +17,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import sys, pathlib, threading, logging
+import sys, threading, logging
 import gi
 
 gi.require_version('Gtk', '4.0')

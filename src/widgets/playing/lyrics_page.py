@@ -1,8 +1,7 @@
 # lyrics_page.py
 
-from gi.repository import Gtk, Adw, GObject, GLib, Gio, Pango, Gst
-from ..song import SongRow
-from ...integrations import models, get_current_integration
+from gi.repository import Gtk, GObject, GLib, Gio, Pango, Gst
+from ...integrations import get_current_integration
 from ..lyrics.helpers import get_lyrics
 from ...constants import DATA_DIR
 import threading, os, re

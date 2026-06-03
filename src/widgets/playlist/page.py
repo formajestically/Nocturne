@@ -1,11 +1,11 @@
 # page.py
 
-from gi.repository import Gtk, Adw, Gdk, GLib, Pango
+from gi.repository import Gtk, Adw, GLib
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_PLAYLIST, get_display_time
 from ..containers import get_context_buttons_list
 from ..song import SongRow
-import threading, uuid, io
+import threading, io
 from colorthief import ColorThief
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/playlist/page.ui')
@@ -25,9 +25,7 @@ class PlaylistPage(Adw.NavigationPage):
         self.id = id
         integration = get_current_integration()
         integration.verifyPlaylist(self.id, True)
-        super().__init__(
-            tag=str(uuid.uuid4())
-        )
+        super().__init__()
         self.song_list_el.set_header(_("Songs"), "music-note-symbolic")
 
         context = CONTEXT_PLAYLIST.copy()
@@ -50,7 +48,7 @@ class PlaylistPage(Adw.NavigationPage):
         self.current_offset = 0
         self.loading = False
 
-    def update_cover(self, paintable:Gdk.Paintable=None):
+    def update_cover(self, paintable):
         if paintable:
             self.cover_el.set_from_paintable(paintable)
             self.cover_el.set_pixel_size(240)

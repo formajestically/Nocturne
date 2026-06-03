@@ -1,6 +1,6 @@
 # models.py
 
-from gi.repository import GObject, Gtk, Gdk, GLib, Gio
+from gi.repository import GObject, Gtk, Gdk, Gio
 
 class Album(GObject.Object):
     __gtype_name__ = 'NocturneModelAlbum'

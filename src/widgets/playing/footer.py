@@ -1,9 +1,8 @@
 # footer.py
 
-from gi.repository import Gtk, Adw, Gdk, GLib, GObject, Gst, Gio
+from gi.repository import Gtk, GLib, GObject, Gst, Gio
 from ...integrations import get_current_integration
 import threading
-from urllib.parse import urlparse
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/playing/footer.ui')
 class PlayingFooter(Gtk.Overlay):

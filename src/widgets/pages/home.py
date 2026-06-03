@@ -1,6 +1,6 @@
 # home.py
 
-from gi.repository import Gtk, Adw, GLib, Gst, Gio
+from gi.repository import Gtk, Adw, GLib, Gio
 from ...integrations import get_current_integration
 from ..album import AlbumButton
 from ..artist import ArtistButton

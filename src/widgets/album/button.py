@@ -4,7 +4,6 @@ from gi.repository import Gtk, Adw, GLib, Gdk, Gio
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_ALBUM, CONTEXT_ARTIST
 from ..containers import ContextContainer
-import threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/album/button.ui')
 class AlbumButton(Gtk.Box):

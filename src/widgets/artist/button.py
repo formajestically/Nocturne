@@ -4,7 +4,6 @@ from gi.repository import Gtk, Adw, GLib, Gdk, Gio
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_ARTIST
 from ..containers import ContextContainer
-import threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/artist/button.ui')
 class ArtistButton(Gtk.Button):
@@ -40,7 +39,7 @@ class ArtistButton(Gtk.Button):
             self.name_el.remove_css_class('title-3')
             self.name_el.add_css_class('title-4')
 
-    def update_cover(self, paintable:Gdk.Paintable=None):
+    def update_cover(self, paintable):
         if paintable:
             self.avatar_el.set_custom_image(paintable)
         elif isinstance(self.avatar_el.get_custom_image(), Adw.SpinnerPaintable):

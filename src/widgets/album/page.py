@@ -1,11 +1,11 @@
 # page.py
 
-from gi.repository import Gtk, Adw, Gdk, GLib, Pango
+from gi.repository import Gtk, Adw, GLib
 from ..song import SongRow
 from ...integrations import get_current_integration, models
 from ...constants import CONTEXT_ALBUM
 from ..containers import get_context_buttons_list
-import threading, uuid, io
+import threading, io
 from colorthief import ColorThief
 
 class DiscIndicator(Gtk.ListBoxRow):
@@ -41,9 +41,7 @@ class AlbumPage(Adw.NavigationPage):
         self.id = id
         integration = get_current_integration()
         integration.verifyAlbum(self.id, True)
-        super().__init__(
-            tag=str(uuid.uuid4())
-        )
+        super().__init__()
         self.song_list_el.set_header(_("Songs"), "music-note-symbolic")
 
         self.star_el.set_action_target_value(GLib.Variant.new_string(self.id))
@@ -91,7 +89,7 @@ class AlbumPage(Adw.NavigationPage):
         else:
             return discN1 - discN2
 
-    def update_cover(self, paintable:Gdk.Paintable=None):
+    def update_cover(self, paintable):
         if paintable:
             self.cover_el.set_from_paintable(paintable)
             self.cover_el.set_pixel_size(240)

@@ -1,11 +1,10 @@
 # control_page.py
 
-from gi.repository import Gtk, Adw, Gdk, GLib, GObject, Gst, Gio
+from gi.repository import Gtk, Adw, GLib, Gst
 from ...integrations import get_current_integration
 from ...constants import get_display_time
-import threading, random, io, os, glob
+import threading
 from urllib.parse import urlparse
-from .player import Player
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/playing/control_page.ui')
 class PlayingControlPage(Adw.NavigationPage):

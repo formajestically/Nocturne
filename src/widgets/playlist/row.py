@@ -4,7 +4,6 @@ from gi.repository import Gtk, Adw, GLib, Gdk, Gio
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_PLAYLIST
 from ..containers import ContextContainer
-import threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/playlist/row.ui')
 class PlaylistRow(Adw.ActionRow):
@@ -32,7 +31,7 @@ class PlaylistRow(Adw.ActionRow):
             Gio.SettingsBindFlags.DEFAULT
         )
 
-    def update_cover(self, paintable:Gdk.Paintable=None):
+    def update_cover(self, paintable):
         if paintable:
             self.cover_el.set_from_paintable(paintable)
             self.cover_el.set_pixel_size(48)

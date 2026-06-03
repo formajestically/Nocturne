@@ -1,7 +1,7 @@
 # songs_all.py
 
-from gi.repository import Gtk, Adw, GLib, GObject, Gio
-from ...integrations import get_current_integration, models
+from gi.repository import Gtk, Adw, GLib, Gio
+from ...integrations import get_current_integration
 from ..song import SongRow, SongButton
 import threading
 

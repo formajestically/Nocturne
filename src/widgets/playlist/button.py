@@ -4,7 +4,6 @@ from gi.repository import Gtk, Adw, GLib, Gdk, Gio
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_PLAYLIST
 from ..containers import ContextContainer
-import threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/playlist/button.ui')
 class PlaylistButton(Gtk.Box):
@@ -47,7 +46,7 @@ class PlaylistButton(Gtk.Box):
             self.name_label_el.remove_css_class('title-3')
             self.name_label_el.add_css_class('title-4')
 
-    def update_cover(self, paintable:Gdk.Paintable=None):
+    def update_cover(self, paintable):
         if paintable:
             self.cover_el.set_from_paintable(paintable)
         elif isinstance(self.cover_el.get_paintable(), Adw.SpinnerPaintable):

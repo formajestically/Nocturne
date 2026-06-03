@@ -4,7 +4,6 @@ from gi.repository import Gtk, Adw, Gdk, GLib
 from ...integrations import get_current_integration
 from ..containers import ContextContainer
 from ...constants import CONTEXT_SONG
-import threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/song/small_row.ui')
 class SongSmallRow(Gtk.Button):
@@ -33,7 +32,7 @@ class SongSmallRow(Gtk.Button):
             if wrapbox := self.get_ancestor(Adw.WrapBox):
                 wrapbox.remove(self)
 
-    def update_cover(self, paintable:Gdk.Paintable=None):
+    def update_cover(self, paintable):
         if paintable:
             self.cover_el.set_from_paintable(paintable)
             self.cover_el.set_pixel_size(48)

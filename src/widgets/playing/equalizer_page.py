@@ -1,6 +1,6 @@
 # equalizer_page.py
 
-from gi.repository import Gtk, Adw, Gio
+from gi.repository import Gtk, Gio
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/playing/equalizer_page.ui')
 class EqualizerPage(Gtk.ScrolledWindow):

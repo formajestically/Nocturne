@@ -1,6 +1,6 @@
 # download_row.py
 
-from gi.repository import Gtk, Adw, Gio, GObject
+from gi.repository import Gtk, GObject
 from ...integrations import get_current_integration
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/containers/download_row.ui')

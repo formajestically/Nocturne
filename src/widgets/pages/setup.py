@@ -1,11 +1,11 @@
 # setup.py
 # page used to download the managed Navidrome instance
 
-from gi.repository import Gtk, Adw, Gio, GLib
-from ...constants import BASE_NAVIDROME_DIR, CACHE_DIR, get_navidrome_path, get_navidrome_env
+from gi.repository import Gtk, Adw, GLib
+from ...constants import BASE_NAVIDROME_DIR, CACHE_DIR
 from . import LoginDialog
 
-import os, requests, tarfile, threading, subprocess, platform
+import os, requests, tarfile, threading, platform
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/pages/setup.ui')
 class SetupPage(Adw.NavigationPage):

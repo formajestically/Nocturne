@@ -1,10 +1,9 @@
 # local.py
 
-from gi.repository import Gtk, GLib, GObject, Gdk, Gio, GdkPixbuf
-from . import secret, models, sql_instance
+from gi.repository import GLib, GObject, Gdk
+from . import models, sql_instance
 from .base import Base
-from datetime import datetime, timezone
-import requests, random, threading, io, pathlib, re, json, os, time, uuid, pwd, getpass, time, shutil, logging
+import random, threading, io, pathlib, re, os, time, uuid, pwd, getpass, shutil, logging
 from PIL import Image
 from tinytag import TinyTag
 from ..constants import DOWNLOADS_DIR, COMPATIBLE_EXTENSIONS, get_song_info_from_file

@@ -1,6 +1,6 @@
 # page_dialog.py
 
-from gi.repository import Gtk, Adw, GLib
+from gi.repository import Gtk, Adw
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/containers/page_dialog.ui')
 class PageDialog(Adw.Dialog):
