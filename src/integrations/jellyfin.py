@@ -397,8 +397,7 @@ class Jellyfin(Base):
                         "IncludeItemTypes": "MusicAlbum",
                         "Recursive": "true",
                         "Fields": "ItemCounts",
-                        "SortBy": "PremiereDate",
-                        "SortOrder":"Descending"
+                        "SortBy": "PremiereDate"
                     }
                 ).get("Items", [])
 
