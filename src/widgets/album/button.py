@@ -14,6 +14,8 @@ class AlbumButton(Gtk.Box):
     cover_button_el = Gtk.Template.Child()
     cover_el = Gtk.Template.Child()
     name_el = Gtk.Template.Child()
+    title_el = Gtk.Template.Child()
+    subtitle_el = Gtk.Template.Child()
     artist_el = Gtk.Template.Child()
 
     def __init__(self, id:str):
@@ -43,11 +45,11 @@ class AlbumButton(Gtk.Box):
         self.cover_el.set_size_request(size, size)
         self.cover_el.set_pixel_size(pixel_size)
         if isBig:
-            self.name_el.remove_css_class('title-4')
-            self.name_el.add_css_class('title-3')
+            self.title_el.remove_css_class('title-4')
+            self.title_el.add_css_class('title-3')
         else:
-            self.name_el.remove_css_class('title-3')
-            self.name_el.add_css_class('title-4')
+            self.title_el.remove_css_class('title-3')
+            self.title_el.add_css_class('title-4')
 
     def update_cover(self, paintable:Gdk.Paintable=None):
         if paintable:
@@ -57,7 +59,7 @@ class AlbumButton(Gtk.Box):
         self.update_size()
 
     def update_name(self, name:str):
-        self.name_el.get_child().set_label(name)
+        self.title_el.set_label(name)
         self.name_el.set_tooltip_text(name)
         self.cover_button_el.set_tooltip_text(name)
         self.set_name(name)
@@ -65,6 +67,10 @@ class AlbumButton(Gtk.Box):
     def update_artist(self, artist:str):
         self.artist_el.get_child().set_label(artist)
         self.artist_el.set_tooltip_text(artist)
+
+    def update_year(self, year:int):
+        if(year > 0):
+            self.subtitle.set_label(str(year))
 
     def update_artist_id(self, artistId:str):
         self.artist_el.set_action_target_value(GLib.Variant.new_string(artistId))
