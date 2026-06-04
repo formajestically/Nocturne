@@ -13,12 +13,12 @@ class AlbumButton(Gtk.Box):
     star_el = Gtk.Template.Child()
     cover_button_el = Gtk.Template.Child()
     cover_el = Gtk.Template.Child()
+    name_button_el = Gtk.Template.Child()
     name_el = Gtk.Template.Child()
-    title_el = Gtk.Template.Child()
-    subtitle_el = Gtk.Template.Child()
+    year_el = Gtk.Template.Child()
     artist_el = Gtk.Template.Child()
 
-    def __init__(self, id:str):
+    def __init__(self, id:str, show_year:bool=False):
         self.id = id
         integration = get_current_integration()
         integration.verifyAlbum(self.id)
@@ -27,16 +27,19 @@ class AlbumButton(Gtk.Box):
         self.play_el.set_action_target_value(GLib.Variant.new_string(self.id))
         self.cover_button_el.set_action_target_value(GLib.Variant.new_string(self.id))
         self.star_el.set_action_target_value(GLib.Variant.new_string(self.id))
-        self.name_el.set_action_target_value(GLib.Variant.new_string(self.id))
+        self.name_button_el.set_action_target_value(GLib.Variant.new_string(self.id))
 
         self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
         self.settings.connect("changed::button-size", lambda *_: GLib.idle_add(self.update_size))
+
+        self.show_year = show_year
 
         integration.connect_to_model(self.id, 'name', self.update_name)
         integration.connect_to_model(self.id, 'artist', self.update_artist)
         integration.connect_to_model(self.id, 'artistId', self.update_artist_id)
         integration.connect_to_model(self.id, 'gdkPaintable', self.update_cover)
         integration.connect_to_model(self.id, 'starred', self.update_starred)
+        integration.connect_to_model(self.id, 'year', self.update_year)
 
     def update_size(self):
         isBig = self.settings.get_value('button-size').unpack() == 'big'
@@ -45,11 +48,11 @@ class AlbumButton(Gtk.Box):
         self.cover_el.set_size_request(size, size)
         self.cover_el.set_pixel_size(pixel_size)
         if isBig:
-            self.title_el.remove_css_class('title-4')
-            self.title_el.add_css_class('title-3')
+            self.name_el.remove_css_class('title-4')
+            self.name_el.add_css_class('title-3')
         else:
-            self.title_el.remove_css_class('title-3')
-            self.title_el.add_css_class('title-4')
+            self.name_el.remove_css_class('title-3')
+            self.name_el.add_css_class('title-4')
 
     def update_cover(self, paintable:Gdk.Paintable=None):
         if paintable:
@@ -59,8 +62,8 @@ class AlbumButton(Gtk.Box):
         self.update_size()
 
     def update_name(self, name:str):
-        self.title_el.set_label(name)
-        self.name_el.set_tooltip_text(name)
+        self.name_el.set_label(name)
+        self.name_button_el.set_tooltip_text(name)
         self.cover_button_el.set_tooltip_text(name)
         self.set_name(name)
 
@@ -70,7 +73,11 @@ class AlbumButton(Gtk.Box):
 
     def update_year(self, year:int):
         if(year > 0):
-            self.subtitle.set_label(str(year))
+            if self.show_year:
+                self.year_el.set_label(str(year))
+                self.year_el.set_visible(True)
+        else:
+            self.year_el.set_visible(False)
 
     def update_artist_id(self, artistId:str):
         self.artist_el.set_action_target_value(GLib.Variant.new_string(artistId))
@@ -124,7 +131,7 @@ class AlbumButton(Gtk.Box):
             pointing_to=rect,
             has_arrow=False
         )
-        popover.set_parent(self.name_el)
+        popover.set_parent(self.name_button_el)
         popover.popup()
 
     @Gtk.Template.Callback()
