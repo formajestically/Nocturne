@@ -17,9 +17,8 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
     condition ("min-width: 1000sp")
     setters {
       split_view.max-sidebar-width: 2440;
-      bottom_bar.visible: true;
       toolbarview.extend-content-to-top-edge: true;
-      sidebar_stack.visible-child-name: 'view';
+      sidebar_view_switcher.visible: true;
       header_view_switcher.visible: false;
     }
     apply => $big_mode_apply();
@@ -47,277 +46,54 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
 
       Gtk.StackPage {
         name: "content";
-        child: Gtk.Overlay {
-          [overlay]
-          Gtk.Box bottom_bar {
-            styles [
-              "fullscreen-bottom-bar",
-              "card"
-            ]
-            hexpand: true;
-            valign: end;
-            orientation: vertical;
-            spacing: 10;
-            margin-start: 20;
-            margin-end: 20;
-            margin-bottom: 20;
-            visible: false;
-            Gtk.CenterBox {
-              orientation: horizontal;
+        child: Adw.NavigationSplitView split_view {
+          sidebar-width-fraction: 0.5;
+          max-sidebar-width: 320;
 
-              start-widget: Gtk.Box {
-                orientation: vertical;
-
-                Gtk.Label fs_title_el {
-                  styles [
-                    "title-1",
-                    "ph5"
-                  ]
-                  ellipsize: end;
-                  xalign: 0;
-                }
-                Gtk.Button fs_album_el {
-                  styles [
-                    "title-2",
-                    "dim-label",
-                    "no-bold",
-                    "flat",
-                    "p0"
-                  ]
-                  child: Gtk.Label {
-                    ellipsize: end;
-                    xalign: 0;
-                  };
-                  halign: start;
-                }
-              };
-
-              center-widget: Gtk.Box {
-                orientation: horizontal;
-                spacing: 15;
-
-                $NocturnePlaybackModeButton {
-                  valign: center;
-                  styles [
-                    "circular",
-                    "flat"
-                  ]
-                }
-
-                Gtk.Button {
-                  icon-name: "media-skip-backward-symbolic";
-
-                  valign: center;
-                  action-name: "app.player_previous";
-                  tooltip-text: _("Previous");
-                  styles [
-                    "circular"
-                  ]
-                }
-
-                Gtk.Stack state_stack_el {
-                  transition-type: crossfade;
-
-                  Gtk.StackPage {
-                    name: "play";
-                    child: Gtk.Button {
-                      icon-name: "media-playback-start-symbolic";
-                      valign: center;
-                      action-name: "app.player_play";
-                      tooltip-text: _("Play");
-                      styles [
-                        "circular",
-                        "accent",
-                        "color"
-                      ]
-                    };
-                  }
-
-                  Gtk.StackPage {
-                    name: "pause";
-                    child: Gtk.Button {
-                      icon-name: "media-playback-pause-symbolic";
-                      valign: center;
-                      action-name: "app.player_pause";
-                      tooltip-text: _("Pause");
-                      styles [
-                        "circular",
-                        "accent",
-                        "color"
-                      ]
-                    };
-                  }
-                }
-
-                Gtk.Button {
-                  icon-name: "media-skip-forward-symbolic";
-                  valign: center;
-                  action-name: "app.player_next";
-                  tooltip-text: _("Next");
-                  styles [
-                    "circular"
-                  ]
-                }
-
-                $NocturneVolumeButton {
-                  valign: center;
-                  styles [
-                    "circular",
-                    "flat"
-                  ]
-                }
-              };
-
-              end-widget: Gtk.Box {
-                orientation: vertical;
-
-                Gtk.Box {
-                  orientation: horizontal;
-                  spacing: 10;
-                  halign: end;
-
-                  Gtk.Label fs_timestamp_el {
-                    styles [
-                      "title-1",
-                      "numeric",
-                      "ph5"
-                    ]
-                    ellipsize: end;
-                    xalign: 1;
-                    justify: right;
-                  }
-                  Gtk.ToggleButton sidebar_toggle_el {
-                    styles [
-                      "p0",
-                      "flat"
-                    ]
-                    notify::active => $fs_sidebar_toggled();
-                    tooltip-text: _("Toggle Sidebar");
-                    icon-name: "sidebar-show-right-symbolic";
-                    active: bind split_view.collapsed inverted;
-                  }
-                }
-
-                Gtk.Button fs_artist_el {
-                  styles [
-                    "title-2",
-                    "dim-label",
-                    "flat",
-                    "no-bold",
-                    "p0"
-                  ]
-                  child: Gtk.Label {
-                    ellipsize: end;
-                    xalign: 0;
-                  };
-                  halign: end;
-                }
-              };
-            }
-            Gtk.Scale fs_progress_el {
-              orientation: horizontal;
-              change-value => $progress_bar_changed();
-              adjustment: Gtk.Adjustment {
-                lower: 0;
-                upper: 1;
-                value: 0;
-              };
-              styles [
-                "p0"
-              ]
-              accessibility {
-                label: _("Current song progress bar");
-              }
-            }
-          }
-
-          child: Adw.NavigationSplitView split_view {
-            sidebar-width-fraction: 0.5;
-            max-sidebar-width: 320;
-            collapsed: bind sidebar_toggle_el.active inverted;
-
-            sidebar: Adw.NavigationPage {
-              title: _("Player");
-              child: Gtk.Stack sidebar_stack {
-                transition-type: crossfade;
-                Gtk.StackPage {
-                  name: "controller";
-                  child: $NocturnePlayingControlPage playing_page {};
-                }
-
-                Gtk.StackPage {
-                  name: "view";
-                  child: Adw.ToolbarView {
-                    extend-content-to-top-edge: true;
-                    [top]
-                    Adw.HeaderBar {
-                      [start]
-                      Gtk.Button toggle_fullscreen_el {
-                        icon-name: "view-fullscreen-symbolic";
-                        tooltip-text: _("Toggle Fullscreen");
-                        clicked => $toggle_fullscreen();
-                      }
-                      show-title: false;
-                    }
-
-                    content: Gtk.Box fs_cover_box {
-                      styles [
-                        "view_box"
-                      ]
-                      valign: center;
-                      spacing: 20;
-                      orientation: vertical;
-
-                      Adw.ViewSwitcher {
-                        stack: stack;
-                        policy: wide;
-                        halign: center;
-                        visible: bind sidebar_toggle_el.active;
-                      }
-
-                      $NocturnePlayingCoverArt cover_art_el {}
-                    };
-                  };
-                }
-              };
+          sidebar: $NocturnePlayingControlPage playing_page {
+            extra-widget: Adw.ViewSwitcher sidebar_view_switcher {
+              stack: stack;
+              policy: wide;
+              halign: center;
+              visible: false;
             };
-            content: Adw.NavigationPage {
-              title: _("Song Details");
-              child: Adw.ToolbarView toolbarview {
-                [top]
-                Adw.HeaderBar header {
-                  title-widget: Adw.ViewSwitcher header_view_switcher {
-                    stack: stack;
-                    policy: wide;
-                  };
-                }
-                [bottom]
-                Adw.ViewSwitcherBar switch_bar {
+          };
+          content: Adw.NavigationPage {
+            title: _("Song Details");
+            child: Adw.ToolbarView toolbarview {
+              [top]
+              Adw.HeaderBar header {
+                title-widget: Adw.ViewSwitcher header_view_switcher {
                   stack: stack;
-                }
+                  policy: wide;
+                };
+              }
+              [bottom]
+              Adw.ViewSwitcherBar switch_bar {
+                stack: stack;
+              }
 
-                Adw.ViewStack stack {
-                  enable-transitions: true;
-                  vhomogeneous: true;
-                  hhomogeneous: true;
-                  Adw.ViewStackPage {
-                    name: "queue";
-                    title: _("Queue");
-                    icon-name: "playlist-symbolic";
-                    child: $NocturnePlayingQueuePage queue_page {};
-                  }
-                  Adw.ViewStackPage {
-                    name: "lyrics";
-                    title: _("Lyrics");
-                    icon-name: "text-justify-center-symbolic";
-                    child: $NocturnePlayingLyricsPage lyrics_page {};
-                  }
-                  Adw.ViewStackPage {
-                    name: "equalizer";
-                    title: _("Equalizer");
-                    icon-name: "sound-symbolic";
-                    child: $NocturneEqualizerPage equalizer_page {};
-                  }
+              content: Adw.ViewStack stack {
+                enable-transitions: true;
+                vhomogeneous: true;
+                hhomogeneous: true;
+                Adw.ViewStackPage {
+                  name: "queue";
+                  title: _("Queue");
+                  icon-name: "playlist-symbolic";
+                  child: $NocturnePlayingQueuePage queue_page {};
+                }
+                Adw.ViewStackPage {
+                  name: "lyrics";
+                  title: _("Lyrics");
+                  icon-name: "text-justify-center-symbolic";
+                  child: $NocturnePlayingLyricsPage lyrics_page {};
+                }
+                Adw.ViewStackPage {
+                  name: "equalizer";
+                  title: _("Equalizer");
+                  icon-name: "sound-symbolic";
+                  child: $NocturneEqualizerPage equalizer_page {};
                 }
               };
             };

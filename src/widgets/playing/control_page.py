@@ -1,6 +1,6 @@
 # control_page.py
 
-from gi.repository import Gtk, Adw, GLib, Gst
+from gi.repository import Gtk, Adw, GLib, Gst, GObject
 from ...integrations import get_current_integration
 from ...constants import get_display_time
 import threading
@@ -10,7 +10,10 @@ from urllib.parse import urlparse
 class PlayingControlPage(Adw.NavigationPage):
     __gtype_name__ = 'NocturnePlayingControlPage'
 
+    extra_widget = GObject.Property(type=Gtk.Widget)
+
     header_bar = Gtk.Template.Child()
+    main_container = Gtk.Template.Child()
     cover_art_el = Gtk.Template.Child()
     title_el = Gtk.Template.Child()
     radio_homepage_el = Gtk.Template.Child()
@@ -41,6 +44,8 @@ class PlayingControlPage(Adw.NavigationPage):
             GLib.idle_add(stack.get_parent().set_overflow, Gtk.Overflow.HIDDEN)
             if stack2 := stack.get_parent().get_parent():
                 GLib.idle_add(stack2.get_parent().set_overflow, Gtk.Overflow.HIDDEN)
+        if extra_widget := self.get_property('extra-widget'):
+            self.main_container.prepend(extra_widget)
 
     def update_position(self, positionSeconds:int):
         integration = get_current_integration()

@@ -153,16 +153,6 @@ window.popout-window .fullscreen-bottom-bar {
   padding: 20px;
 }
 
-window.popout-window.big-mode .fullscreen-bottom-bar button {
-  padding: 8px;
-  -gtk-icon-size: 18px;
-}
-
-window.popout-window.big-mode .fullscreen-bottom-bar button.color {
-  padding: 12px;
-  -gtk-icon-size: 24px;
-}
-
 window.player-translucent:not(.popout-window) bottom-sheet#main-bottom-sheet sheet.background {
   backdrop-filter: blur(10px);
   background: color-mix(in srgb, var(--window-bg-color) 80%, transparent);
@@ -176,7 +166,6 @@ window.popout-window.big-mode .view_box,
 window.popout-window.big-mode navigation-view-page > toolbarview stack > scrolledwindow > * > *,
 window.popout-window.big-mode navigation-view-page > toolbarview stack > * > scrolledwindow > * > * {
   padding-top: 45px;
-  padding-bottom: 172px;
 }
 
 window .main_sidebar .queue_page_padding_top > * > * {
@@ -223,11 +212,6 @@ window.popout-window.big-mode button.lyrics_go_back_overlay_button {
 
 .p50 {
   padding:50px;
-}
-
-window.popout-window.big-mode overlay.card,
-window.popout-window.big-mode .fullscreen-bottom-bar {
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .big-album-title {
