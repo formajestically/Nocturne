@@ -241,3 +241,7 @@ button.lyrics_go_back_overlay_button {
   margin: 10px;
 }
 
+toggle-group > toggle:checked {
+  background: color-mix(in srgb, var(--window-bg-color), transparent);
+  color: var(--accent-color);
+}
