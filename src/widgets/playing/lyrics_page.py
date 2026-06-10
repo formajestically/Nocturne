@@ -41,7 +41,6 @@ class LyricRow(Gtk.ListBoxRow):
                 if duration_ms == 0:
                     self.cues[ms] = content
                 else:
-                    print('auto mode', duration_ms)
                     words = content.split(' ')
                     weights = []
                     for word in words:
