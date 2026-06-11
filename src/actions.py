@@ -630,7 +630,7 @@ def play_random_queue(window):
 
 def show_song_details(window, model_id):
     dialog = Widgets.SongDetailsDialog(model_id)
-    dialog.present(window)
+    dialog.present(window.get_application().props.active_window)
 
 # -- ALBUM --
 
