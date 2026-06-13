@@ -290,7 +290,7 @@ class Player(EventAdapter):
         self.bus.add_signal_watch()
         self.bus.connect("message::eos", lambda bus, msg: self.handle_song_change_request("end") if msg.src == self.gst else None)
         self.bus.connect("message::error", lambda bus, msg: print("ERROR", msg.parse_error()[0].message))
-        self.bus.connect("message::state-changed", self.handle_message_state_changed)
+        self.bus.connect("message::state-changed", lambda *_: threading.Thread(target=self.handle_message_state_changed, args=(_), daemon=True).start())
         self.bus.connect("message::tag", self.handle_message_tag)
         self.bus.connect("message::element", self.handle_message_element)
 
@@ -357,20 +357,6 @@ class Player(EventAdapter):
             integration.loaded_models.get('currentSong').set_property('videoId', "")
 
     # ---
-
-    def handle_new_state(self, state):
-        integration = get_current_integration()
-        if not integration.loaded_models.get('currentSong').get_property('seeking'):
-            is_playing = (state == Gst.State.PLAYING)
-            stack_page_name = 'pause' if is_playing else 'play'
-            integration.loaded_models.get("currentSong").set_property("buttonState", stack_page_name)
-            if root := self.application.get_active_window():
-                if is_playing:
-                    root.add_css_class('playing')
-                else:
-                    root.remove_css_class('playing')
-            self.emit_changes(self.mpris.player, changes=['Metadata', 'PlaybackStatus'])
-            self.discord_rpc.update()
 
     def handle_song_change_request(self, action:str):
         # action can be next, previous or end (song ended)
@@ -475,7 +461,12 @@ class Player(EventAdapter):
     def handle_message_state_changed(self, bus, message):
         if message.src == self.gst:
             old_state, new_state, pending_state = message.parse_state_changed()
-            self.handle_new_state(new_state)
+            integration = get_current_integration()
+            if not integration.loaded_models.get('currentSong').get_property('seeking'):
+                is_playing = new_state == Gst.State.PLAYING
+                integration.loaded_models.get("currentSong").set_property("buttonState", 'pause' if is_playing else 'play')
+                self.emit_changes(self.mpris.player, changes=['Metadata', 'PlaybackStatus'])
+                self.discord_rpc.update()
 
     def handle_message_tag(self, bus, message):
         if message.src == self.gst:
