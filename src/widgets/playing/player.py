@@ -461,12 +461,13 @@ class Player(EventAdapter):
     def handle_message_state_changed(self, bus, message):
         if message.src == self.gst:
             old_state, new_state, pending_state = message.parse_state_changed()
-            integration = get_current_integration()
-            if not integration.loaded_models.get('currentSong').get_property('seeking'):
-                is_playing = new_state == Gst.State.PLAYING
-                integration.loaded_models.get("currentSong").set_property("buttonState", 'pause' if is_playing else 'play')
-                self.emit_changes(self.mpris.player, changes=['Metadata', 'PlaybackStatus'])
-                self.discord_rpc.update()
+            if pending_state == Gst.State.VOID_PENDING and new_state != Gst.State.READY:
+                integration = get_current_integration()
+                if not integration.loaded_models.get('currentSong').get_property('seeking'):
+                    is_playing = new_state == Gst.State.PLAYING
+                    integration.loaded_models.get("currentSong").set_property("buttonState", 'pause' if is_playing else 'play')
+                    self.emit_changes(self.mpris.player, changes=['Metadata', 'PlaybackStatus'])
+                    self.discord_rpc.update()
 
     def handle_message_tag(self, bus, message):
         if message.src == self.gst:
