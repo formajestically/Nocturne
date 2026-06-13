@@ -2,6 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Aleksandr Shamaraev <shad@altlinux.org>, 2026.
+# gttn-84 <4youtome@rambler.ru>, 2026.
 #
 #, fuzzy
 msgid ""
@@ -9,8 +10,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-05 18:30-0600\n"
-"PO-Revision-Date: 2026-05-18 13:47+1100\n"
-"Last-Translator: Aleksandr Shamaraev <shad@altlinux.org>\n"
+"PO-Revision-Date: 2026-06-09 11:48+1100\n"
+"Last-Translator: gttn-84 <4youtome@rambler.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -234,9 +235,9 @@ msgstr "Играть позже"
 #, python-brace-format
 msgid "{} Song"
 msgid_plural "{} Songs"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} Песня"
+msgstr[1] "{} Песни"
+msgstr[2] "{} Песен"
 
 #: src/actions.py:497
 msgid "Lyrics Saved"
@@ -278,25 +279,25 @@ msgstr "Создать"
 #, python-brace-format
 msgid "{} Song Removed"
 msgid_plural "{} Songs Removed"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} Песня удалена"
+msgstr[1] "{} Песни удалены"
+msgstr[2] "{} Песен удалено"
 
 #: src/actions.py:732 src/actions.py:734 src/actions.py:754 src/actions.py:756
 #, python-brace-format
 msgid "{} Song Added"
 msgid_plural "{} Songs Added"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} Песня добавлена"
+msgstr[1] "{} Песни добавлены"
+msgstr[2] "{} Песен добавлено"
 
 #: src/actions.py:761 src/actions.py:877 src/actions.py:910
 #, python-brace-format
 msgid "{} Song Skipped"
 msgid_plural "{} Songs Skipped"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} Песня пропущена"
+msgstr[1] "{} Песни пропущены"
+msgstr[2] "{} Песен пропущено"
 
 #: src/actions.py:775
 msgid "Playlist Deleted"
@@ -322,9 +323,9 @@ msgstr "Уже загружено"
 #, python-brace-format
 msgid "{} Song ({})"
 msgid_plural "{} Songs ({})"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} Песня ({})"
+msgstr[1] "{} Песни ({})"
+msgstr[2] "{} Песен ({})"
 
 #: src/actions.py:923
 msgid "Download Skipped"
@@ -334,9 +335,9 @@ msgstr "Загрузка пропущена"
 #, python-brace-format
 msgid "Download Started ({} Song Skipped)"
 msgid_plural "Download Started ({} Songs Skipped)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Загрузка началась ({} Песня пропущена)"
+msgstr[1] "Загрузка началась ({} Песни пропущены)"
+msgstr[2] "Загрузка началась ({} Песен пропущено)"
 
 #: src/actions.py:1022 src/actions.py:1041
 msgid "Deleted"
@@ -1398,9 +1399,9 @@ msgstr "Диск {}"
 #, python-brace-format
 msgid "{} Album"
 msgid_plural "{} Albums"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} Альбом"
+msgstr[1] "{} Альбома"
+msgstr[2] "{} Альбомов"
 
 #: src/widgets/artist/page.py:50
 msgid "Top Songs"
