@@ -295,7 +295,7 @@ class Jellyfin(Base):
             "Limit": size,
             "Recursive": "true",
             "Fields": "Overview,SimilarItems,UserData",
-            "SortBy": "SortName",
+            "SortBy": "Random",
             "SortOrder": "Ascending"
         }
         response = self.make_request(

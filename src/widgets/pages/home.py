@@ -64,7 +64,7 @@ class HomePage(Adw.NavigationPage):
     def get_default_results(self) -> dict:
         if integration := get_current_integration():
             songs = integration.getRandomSongs(size=self.max_songs) if self.max_songs > 0 else []
-            albums = integration.getAlbumList(size=self.max_albums) if self.max_albums > 0 else []
+            albums = integration.getAlbumList(list_type="random", size=self.max_albums) if self.max_albums > 0 else []
             artists = integration.getArtists(size=self.max_artists) if self.max_artists > 0 else []
             playlists = integration.getPlaylists()[:self.max_playlists]
             return {
