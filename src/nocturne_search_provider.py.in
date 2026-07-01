@@ -41,8 +41,22 @@ class NocturneSearchProvider:
     """
 
     last_results = {}
+    allowed_types = []
+
+    def __init__(self):
+        self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
 
     def GetInitialResultSet(self, terms):
+        possible_types = [
+            'artist',
+            'album',
+            'song',
+            'playlist'
+        ]
+        self.allowed_types = []
+        for type_name in possible_types:
+            if self.settings.get_value('gnome-search-include-{}s'.format(type_name)).unpack():
+                self.allowed_types.append(type_name)
         return []
 
     def ActivateResult(self, identifier, terms, uid=None):
@@ -67,7 +81,9 @@ class NocturneSearchProvider:
         try:
             bus = SessionBus()
             if app_service := bus.get("com.jeffser.Nocturne.Service"):
-                self.last_results = app_service.Search(query)
+                for item_id, item in app_service.Search(query).items():
+                    if item.get('type') in self.allowed_types:
+                        self.last_results[item_id] = item
         except Exception as e:
             print(e)
 

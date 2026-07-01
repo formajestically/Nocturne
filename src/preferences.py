@@ -19,6 +19,13 @@ class NocturnePreferences(Adw.PreferencesDialog):
     default_page_el = Gtk.Template.Child()
     bitrate_el = Gtk.Template.Child()
 
+    ## Gnome Search
+    gnome_search_group_el = Gtk.Template.Child()
+    gnome_search_artists_el = Gtk.Template.Child()
+    gnome_search_albums_el = Gtk.Template.Child()
+    gnome_search_songs_el = Gtk.Template.Child()
+    gnome_search_playlists_el = Gtk.Template.Child()
+
     ## Session
     session_group_el = Gtk.Template.Child()
     listenbrainz_stack_el = Gtk.Template.Child()
@@ -123,6 +130,33 @@ class NocturnePreferences(Adw.PreferencesDialog):
             self.bitrate_el.set_visible('no-max-bitrate' not in integration.limitations)
         else:
             self.bitrate_el.set_visible(False)
+
+        ## Gnome Search
+        self.gnome_search_group_el.set_visible("GNOME" in os.environ.get("XDG_CURRENT_DESKTOP", "").upper())
+        settings.bind(
+            "gnome-search-include-artists",
+            self.gnome_search_artists_el,
+            "active",
+            Gio.SettingsBindFlags.DEFAULT
+        )
+        settings.bind(
+            "gnome-search-include-albums",
+            self.gnome_search_albums_el,
+            "active",
+            Gio.SettingsBindFlags.DEFAULT
+        )
+        settings.bind(
+            "gnome-search-include-songs",
+            self.gnome_search_songs_el,
+            "active",
+            Gio.SettingsBindFlags.DEFAULT
+        )
+        settings.bind(
+            "gnome-search-include-playlists",
+            self.gnome_search_playlists_el,
+            "active",
+            Gio.SettingsBindFlags.DEFAULT
+        )
 
         ## Session
         settings.bind(

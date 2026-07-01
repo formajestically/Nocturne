@@ -22,6 +22,19 @@
 	  <key name="max-bitrate" type="i">
 	    <default>0</default>
 	  </key>
+	  <!--### Section: Gnome Search-->
+	  <key name="gnome-search-include-artists" type="b">
+	    <default>true</default>
+	  </key>
+	  <key name="gnome-search-include-albums" type="b">
+	    <default>true</default>
+	  </key>
+	  <key name="gnome-search-include-songs" type="b">
+	    <default>true</default>
+	  </key>
+	  <key name="gnome-search-include-playlists" type="b">
+	    <default>true</default>
+	  </key>
 	  <!--### Section: Session-->
 	  <key name="discord-rpc-enabled" type="b">
 	    <default>false</default>
@@ -176,4 +189,5 @@
 	  </key>
 	</schema>
 </schemalist>
+
 
